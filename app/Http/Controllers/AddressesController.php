@@ -50,12 +50,12 @@ class AddressesController extends BaseController
     public function searchAddresses()
     {
         $this->validate($this->request, [
-            'lat' => 'required|Numeric',
-            'lng' => 'required|Numeric',
+            'latitude' => 'required|Numeric',
+            'longitude' => 'required|Numeric',
         ]);
         $input_array = $this->request->all();
-        $area = $this->getAPI($input_array['lat'], $input_array['lng'], 'administrative_area_level_1');
-        $city = $this->getAPI($input_array['lat'], $input_array['lng'], 'locality');
+        $area = $this->getAPI($input_array['latitude'], $input_array['longitude'], 'administrative_area_level_1');
+        $city = $this->getAPI($input_array['latitude'], $input_array['longitude'], 'locality');
         if ($area && $city){
             $this->saveDB($area, $city);
             $result = json_encode([
@@ -67,12 +67,12 @@ class AddressesController extends BaseController
         return 'NOT FOUND';
     }
 
-    private function getAPI($lat, $lng, $type)
+    private function getAPI($latitude, $longitude, $type)
     {
         $endpoit = 'https://maps.googleapis.com/maps/api/geocode/json';
         $response = Http::get($endpoit, 
             [
-                'latlng' => $lat . ',' . $lng,
+                'latlng' => $latitude . ',' . $longitude,
                 'key' => 'AIzaSyCh2ZrUe98IHEs4V3rNUhTsvpTZhhuhHgk',
                 'result_type' => $type
             ]);
