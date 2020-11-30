@@ -73,7 +73,7 @@ class AddressesController extends BaseController
         $response = Http::get($endpoit, 
             [
                 'latlng' => $latitude . ',' . $longitude,
-                'key' => 'AIzaSyCh2ZrUe98IHEs4V3rNUhTsvpTZhhuhHgk',
+                'key' => 'GOOGLE KEY',
                 'result_type' => $type
             ]);
         if ($response->ok()){
